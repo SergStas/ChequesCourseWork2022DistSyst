@@ -23,3 +23,8 @@ class Transaction(BaseModel):
     sender: Person
     receiver: Person
     sum: float
+
+
+class CalculationResult(BaseModel):
+    cheque_id: int
+    transactions: List[Transaction]
