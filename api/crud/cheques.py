@@ -13,7 +13,7 @@ def create_cheque(db: Session, name: str, payer_name: str, positions: [Position]
         payer_db = create_person(db, payer_name)
     cheque_db = Cheque(
         name=name,
-        payer=payer_db.id,
+        payer_id=payer_db.id,
         positions=[create_position(db, e.name, e.cost, e.owner.name, ) for e in positions],
     )
     db.add(cheque_db)

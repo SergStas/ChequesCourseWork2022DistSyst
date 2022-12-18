@@ -1,5 +1,3 @@
-from typing import List
-
 from schemas.models import *
 
 
@@ -16,4 +14,8 @@ class ChequeIndexed(Cheque):
 
 
 class TransactionIndexed(Transaction):
+    id: int
+
+
+class CalculationResultIndexed(CalculationResult):
     id: int

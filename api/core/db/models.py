@@ -35,7 +35,7 @@ class Cheque(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     positions = relationship("Position")
-    payer = Column(Integer, ForeignKey("persons.id"))
+    payer_id = Column(Integer, ForeignKey("persons.id"))
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -46,9 +46,17 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     sum = Column(Float)
-    sender = Column(Integer, ForeignKey("persons.id"))
-    receiver = Column(Integer, ForeignKey("persons.id"))
-    cheque_id: int
+    sender_id = Column(Integer, ForeignKey("persons.id"))
+    receiver_id = Column(Integer, ForeignKey("persons.id"))
+    result_id = Column(Integer, ForeignKey("results.id"))
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class CalculationResult(Base):
+    __tablename__ = "results"
+
+    id = Column(Integer, primary_key=True, index=True)
+    transactions = relationship("Transaction")
+    cheque_id = Column(Integer, ForeignKey("cheques.id"))

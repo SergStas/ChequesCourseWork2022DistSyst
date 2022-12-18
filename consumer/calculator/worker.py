@@ -13,11 +13,15 @@ def perform(cheque_id: int):
     receiver_name = response["payer"]["name"]
     for tr_json in response["positions"]:
         sender_name = tr_json["owner"]["name"]
-        sender_entries = [e for e in transactions if sender_name == e["sender"]]
+        sender_entries = [e for e in transactions if sender_name == e["sender"]["name"]]
         if len(sender_entries) > 0:
-            sender_entries[0]["sum"] += float(tr_json["cost"])
+            transactions[0]["sum"] += float(tr_json["cost"])
         else:
-            sender_entries.append({"sender": sender_name, "receiver": receiver_name, "sum": 0.0})
+            transactions.append({
+                "sender": {"name": sender_name},
+                "receiver": {"name": receiver_name},
+                "sum": float(tr_json["cost"]),
+            })
     post_result(cheque_id, transactions)
 
 
